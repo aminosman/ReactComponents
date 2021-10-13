@@ -2,7 +2,7 @@ const WebpackNotifierPlugin = require("webpack-notifier");
 const baseConfig = {
   context: `${__dirname}`,
   entry: {
-    batchreview: ["babel-polyfill", "./src/App.tsx"],
+    index: ["babel-polyfill", "./src/index.js"],
   },
   module: {
     rules: [
@@ -44,7 +44,7 @@ const baseConfig = {
   plugins: [
     new WebpackNotifierPlugin({
       alwaysNotify: true,
-      title: "Mars Batch Review",
+      title: "Mars Component Review",
     }),
   ],
   // Great optimization for later
@@ -57,7 +57,7 @@ const baseConfig = {
 const recipeConfig = Object.assign({}, baseConfig, {
   output: {
     filename: "[name].bundle.js",
-    path: `${__dirname}/../web-app/js`,
+    path: `${__dirname}`,
   },
 });
 
