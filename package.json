@@ -2,7 +2,7 @@
   "name": "react-components",
   "version": "0.0.1",
   "description": "react components for Mars",
-  "main": "src/index.js",
+  "main": "index.bundle.js",
   "scripts": {
     "start": "node_modules/.bin/webpack",
     "build": "react-scripts build",
