@@ -1,4 +1,8 @@
 {
+  "name": "react-components",
+  "version": "0.0.1",
+  "description": "react components for Mars",
+  "main": "src/index.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
