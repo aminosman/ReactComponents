@@ -1,2 +1,1 @@
-import * as Components from ".";
-export default Components;
+export { Table } from "./Table";

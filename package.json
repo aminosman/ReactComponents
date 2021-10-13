@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "react components for Mars",
   "main": "index.bundle.js",
+  "typings": "index.d.ts",
   "scripts": {
     "start": "node_modules/.bin/webpack",
     "build": "react-scripts build",

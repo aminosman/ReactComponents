@@ -84356,16 +84356,15 @@ var TableLoader = function (props) {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: default */
+/*! exports provided: Table */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Table */ "./src/Table.tsx");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Table", function() { return _Table__WEBPACK_IMPORTED_MODULE_0__["Table"]; });
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  Table: _Table__WEBPACK_IMPORTED_MODULE_0__["default"]
-});
+
 
 /***/ }),
 
