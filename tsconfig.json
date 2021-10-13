@@ -1,45 +1,45 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"module": "esnext",
-		"target": "es5",
-		"lib": ["es6", "dom", "es2017", "scripthost"],
-		"sourceMap": true,
-		"allowJs": true,
-		"jsx": "react",
-		"moduleResolution": "node",
-		"forceConsistentCasingInFileNames": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noImplicitAny": true,
-		"importHelpers": true,
-		"strictNullChecks": true,
-		"suppressImplicitAnyIndexErrors": true,
-		"noUnusedLocals": false,
-		"esModuleInterop": true
-	},
-	"rules": {
-		"jsx-boolean-value": false,
-		"ordered-imports": [false],
-		"jsx-no-lambda": false,
-		"object-literal-sort-keys": false,
-		"no-empty": false,
-		"curly": false,
-		"no-console": false,
-		"no-string-literal": false,
-		"member-access": [true, "no-public"],
-		"lines-between-class-members": true
-	},
-	"exclude": [
-		"node_modules",
-		"build",
-		"scripts",
-		"acceptance-tests",
-		"webpack",
-		"jest",
-		"src/setupTests.ts",
-		"templates",
-		"work",
-		"util"
-	]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6", "dom", "es2017", "scripthost"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": false,
+    "esModuleInterop": true
+  },
+  "rules": {
+    "jsx-boolean-value": false,
+    "ordered-imports": [false],
+    "jsx-no-lambda": false,
+    "object-literal-sort-keys": false,
+    "no-empty": false,
+    "curly": false,
+    "no-console": false,
+    "no-string-literal": false,
+    "member-access": [true, "no-public"],
+    "lines-between-class-members": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "templates",
+    "work",
+    "util"
+  ],
+  "include": ["src", "index.d.ts"]
 }
