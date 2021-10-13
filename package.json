@@ -2,14 +2,12 @@
   "name": "react-components",
   "version": "0.0.1",
   "description": "react components for Mars",
-  "main": "index.bundle.js",
-  "typings": "index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/webpack",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "tslint --project tslint.json"
+    "build": "npx tsc"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",

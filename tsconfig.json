@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "esnext",
     "target": "es5",
-    "lib": ["es6", "dom", "es2017", "scripthost"],
-    "sourceMap": true,
-    "allowJs": true,
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./lib",
     "jsx": "react",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
