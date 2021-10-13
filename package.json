@@ -5,7 +5,8 @@
   "files": [
     "lib/**/*"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "npx tsc"
   },
