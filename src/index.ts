@@ -1,2 +1,3 @@
 import Table from "./Table";
-export { Table };
+import Helpers from "./helpers";
+export { Table, Helpers };
