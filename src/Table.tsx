@@ -12,7 +12,7 @@ import { Alert, Row } from 'react-bootstrap'
 import ContentLoader from 'react-content-loader'
 import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { ItemEditSchema, ItemOptions, ItemSchema, Options, Props, TableCellProps } from '../index'
+import { ItemEditSchema, ItemOptions, ItemSchema, Options, Props, TableCellProps } from '../index.d.ts'
 
 
 const TableCell = ({ snapshot, children, Wrapper, row, id, ...props }: TableCellProps) => {
