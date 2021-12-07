@@ -30,6 +30,7 @@ export interface TableProps<T> {
     onSort?: (id: number, position: number) => void;
     rowClassName?: string;
     cellClassName?: string;
+    tableClassName?: string;
 }
 export declare type TableCellProps = {
     children?: any;

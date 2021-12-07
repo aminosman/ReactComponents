@@ -54,6 +54,7 @@ export interface TableProps<T> {
     onSort?: (id: number, position: number) => void;
     rowClassName?: string;
     cellClassName?: string;
+    tableClassName?: string;
 }
 
 export type TableCellProps = {
@@ -488,7 +489,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 {(provided, snapshot) => (
                     <table
                         ref={provided.innerRef}
-                        className="table table-hover table-dark"
+                        className={`table table-hover table-dark ${props.tableClassName}`}
                     >
                         <thead>
                             {renderHeader()}
