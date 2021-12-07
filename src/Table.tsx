@@ -66,7 +66,7 @@ export type TableCellProps = {
     cellClassName?: string;
 };
 
-const TableCell = ({ snapshot, children, Wrapper, row, id, ...props }: TableCellProps) => {
+const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...props }: TableCellProps) => {
     const [ref, { width, height }] = useMeasure<any>()
 
     const [dimentionSnapshot, setDimentionSnapshot] = useState<{ width: number, height: number } | null>(null)
@@ -77,7 +77,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, ...props }: TableCell
         }
     }, [width])
 
-    return <td ref={ref} className="bg-dark" style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
+    return <td ref={ref} className={`${cellClassName || 'bg-dark'}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
 }
 
 const TableLoader = <T extends object>(props: TableProps<T>) => {
