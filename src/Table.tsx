@@ -12,8 +12,59 @@ import { Alert, Row } from 'react-bootstrap'
 import ContentLoader from 'react-content-loader'
 import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { ItemEditSchema, ItemOptions, ItemSchema, Options, Props, TableCellProps } from './global'
+import { ItemEditSchema, ItemOptions, Options, Option } from './global'
 
+export interface ItemSchema<T> {
+    label: string;
+    property: keyof T;
+    options?: (term?: string) => Promise<any[] | null> | any[] | null;
+    required?: boolean;
+    type:
+    | "text"
+    | "select"
+    | "switch"
+    | "number"
+    | "checkbox"
+    | "custom"
+    | "table";
+    extractor?: (x: any) => Option;
+    value?: (item: T) => string | JSX.Element;
+    key?: string;
+    CustomComponent?: (
+        onChange: (val: any) => void,
+        item: T
+    ) => JSX.Element | undefined | null;
+    props?: TableProps<any>;
+    dependency?: Array<keyof T>;
+}
+
+export interface TableProps<T> {
+    items: T[] | ((l: any) => T[]);
+    key?: string;
+    onUpdate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
+    onCreate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
+    onRemove?: (item: T) => Promise<boolean>;
+    onClick?: (item: T) => any;
+    onDragEnd?: (parentId: number, id: number, position: number) => any;
+    clickType?: string;
+    parentId: number;
+    schema: Array<ItemSchema<T>>;
+    loading?: boolean;
+    ListEmptyComponent?: JSX.Element;
+    onSort?: (id: number, position: number) => void;
+    rowClassName?: string;
+    cellClassName?: string;
+}
+
+export type TableCellProps = {
+    children?: any;
+    snapshot: DraggableStateSnapshot;
+    Wrapper?: React.ElementType;
+    row?: boolean;
+    style?: any;
+    id?: string;
+    cellClassName?: string;
+};
 
 const TableCell = ({ snapshot, children, Wrapper, row, id, ...props }: TableCellProps) => {
     const [ref, { width, height }] = useMeasure<any>()
@@ -29,7 +80,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, ...props }: TableCell
     return <td ref={ref} className="bg-dark" style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
 }
 
-const TableLoader = <T extends object>(props: Props<T>) => {
+const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const [showModal, setShowModal] = useState<boolean>(false)
     const [editing, setEditing] = useState<Array<ItemEditSchema<T>> | null>(null)
@@ -378,7 +429,7 @@ const TableLoader = <T extends object>(props: Props<T>) => {
                 <Button variant="link" className="text-white" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
         } else {
-            rows.push(props.schema.map(i => <TableCell snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${String(i.key || i.property)}`}>{renderItemProp(i, item)}</TableCell>))
+            rows.push(props.schema.map(i => <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${String(i.key || i.property)}`}>{renderItemProp(i, item)}</TableCell>))
         }
         if (props.onUpdate) {
             rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-update-${JSON.stringify(item)}`}>
@@ -404,7 +455,7 @@ const TableLoader = <T extends object>(props: Props<T>) => {
             {(provided: any, snapshot) => (
                 <>
                     <tr
-                        className="bg-gradient-dark text-white"
+                        className={`bg-gradient-dark text-white ${props.rowClassName || ''}`}
                         key={`row-data-${index}-${item.id}`}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
