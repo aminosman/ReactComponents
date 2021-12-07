@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import ContentLoader from 'react-content-loader';
 
-interface NavItem {
+export interface NavItem {
     label: string, id: string, tab?: JSX.Element, permission?: () => boolean | undefined, content: any
 }
 
-interface Props {
+export interface Props {
     defaultActiveKey: string,
     nav: NavItem[],
     defaultPinnedTabs?: string[],

@@ -1,12 +1,12 @@
 /// <reference types="react" />
-interface NavItem {
+export interface NavItem {
     label: string;
     id: string;
     tab?: JSX.Element;
     permission?: () => boolean | undefined;
     content: any;
 }
-interface Props {
+export interface Props {
     defaultActiveKey: string;
     nav: NavItem[];
     defaultPinnedTabs?: string[];
@@ -14,4 +14,3 @@ interface Props {
     loading?: boolean;
 }
 export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading }: Props): JSX.Element;
-export {};
