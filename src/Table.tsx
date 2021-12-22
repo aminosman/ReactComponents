@@ -15,7 +15,7 @@ import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'r
 import { ItemEditSchema, ItemOptions, Options, Option } from './global'
 
 export interface ItemSchema<T> {
-    label: string;
+    label: string | JSX.Element;
     property: keyof T;
     options?: (term?: string) => Promise<any[] | null> | any[] | null;
     required?: boolean;
