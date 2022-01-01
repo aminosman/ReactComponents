@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ItemEditSchema, Option } from './global';
 export interface ItemSchema<T> {
-    label: string;
+    label: string | JSX.Element;
     property: keyof T;
     options?: (term?: string) => Promise<any[] | null> | any[] | null;
     required?: boolean;
