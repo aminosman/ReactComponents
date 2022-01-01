@@ -17,6 +17,7 @@ import { ItemEditSchema, ItemOptions, Options, Option } from './global'
 export interface ItemSchema<T> {
     label: string | JSX.Element;
     labelClassName: string;
+    labelStyle: any;
     property: keyof T;
     options?: (term?: string) => Promise<any[] | null> | any[] | null;
     required?: boolean;
@@ -474,7 +475,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderHeader = () => (
         <tr className="bg-dark text-white">
-            {props.schema.map(i => <th className={`${i.labelClassName || ''}`} key={`row-header-${i.label}`}>{i.label}</th>)}
+            {props.schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.label}`}>{i.label}</th>)}
             {props.onRemove && <th />}
             {props.onCreate && <th scope="col">
                 <Button variant="light" className="float-right" onClick={handleShowModal}>
