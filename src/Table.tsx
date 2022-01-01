@@ -16,8 +16,8 @@ import { ItemEditSchema, ItemOptions, Options, Option } from './global'
 
 export interface ItemSchema<T> {
     label: string | JSX.Element;
-    labelClassName: string;
-    labelStyle: any;
+    labelClassName?: string;
+    labelStyle?: any;
     property: keyof T;
     options?: (term?: string) => Promise<any[] | null> | any[] | null;
     required?: boolean;
