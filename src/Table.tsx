@@ -424,18 +424,18 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderRowContents = (item: T, snapshot: DraggableStateSnapshot) => {
         const rows = []
         if (props?.onClick && props.clickType === 'link') {
-            rows.push(props.schema.map(i => <td key={`row-prop-data-${String(i.key || i.property)}-link`}>
+            rows.push(props.schema.map(i => <td key={`row-prop-data-${props.key}-${String(i.key || i.property)}-link`}>
                 <Link className="text-white" target="_blank" to={props?.onClick && props?.onClick(item)}>{renderItemProp(i, item)}</Link>
             </td>))
         } else if (props?.onClick) {
-            rows.push(props.schema.map(i => <td key={`row-prop-data-${String(i.key || i.property)}-click`}>
+            rows.push(props.schema.map(i => <td key={`row-prop-data-${props.key}-${String(i.key || i.property)}-click`}>
                 <Button variant="link" className="text-white" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
         } else {
-            rows.push(props.schema.map(i => <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${String(i.key || i.property)}`}>{renderItemProp(i, item)}</TableCell>))
+            rows.push(props.schema.map(i => <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${props.key}-${String(i.key || i.property)}`}>{renderItemProp(i, item)}</TableCell>))
         }
         if (props.onUpdate) {
-            rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-update-${JSON.stringify(item)}`}>
+            rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-${props.key}-update-${JSON.stringify(item)}`}>
                 <Button variant="light" className="float-right" onClick={() => handleEdit(item)}>
                     <FontAwesomeIcon icon="edit" />
                 </Button>
