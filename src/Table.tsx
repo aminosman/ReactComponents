@@ -459,7 +459,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 <>
                     <tr
                         className={`bg-gradient-dark text-white ${props.rowClassName || ''}`}
-                        key={`row-data-${index}-${item.id}`}
+                        key={`row-data-${index}-${item.id}-${props.key}`}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
