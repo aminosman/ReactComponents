@@ -10,7 +10,8 @@ export interface TypeaheadProps<T> {
     onInputChange?: (term: string) => void,
     options?: Option[],
     loading?: boolean,
-    multiple?: boolean
+    multiple?: boolean,
+    selected: Option[]
 }
 
 export default <T extends object>(props: TypeaheadProps<T>) => {
@@ -52,6 +53,7 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
             defaultInputValue={props.initialValue}
             onSearch={search}
             onInputChange={onInputChange}
+            selected={props.selected}
         />
     )
 }
