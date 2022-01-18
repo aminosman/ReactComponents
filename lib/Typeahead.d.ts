@@ -4,7 +4,7 @@ export interface TypeaheadProps<T> {
     initialValue?: string;
     onSearch?: (term: string) => Promise<Array<{
         label: string;
-    }>>;
+    }> | null>;
     searchOnClick?: boolean;
     onInputChange?: (term: string) => void;
     options?: Option[];

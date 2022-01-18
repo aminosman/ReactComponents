@@ -5,7 +5,7 @@ import { Option } from 'react-bootstrap-typeahead/types/types'
 export interface TypeaheadProps<T> {
     onChange: (item: T) => void,
     initialValue?: string,
-    onSearch?: (term: string) => Promise<Array<{ label: string }>>
+    onSearch?: (term: string) => Promise<Array<{ label: string }> | null>
     searchOnClick?: boolean,
     onInputChange?: (term: string) => void,
     options?: Option[]
