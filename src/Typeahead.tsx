@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react'
-import { AsyncTypeahead, Typeahead } from 'react-bootstrap-typeahead'
+import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import { Option } from 'react-bootstrap-typeahead/types/types'
 
 export interface TypeaheadProps<T> {
@@ -12,7 +12,6 @@ export interface TypeaheadProps<T> {
     loading?: boolean,
     multiple?: boolean,
     selected: Option[],
-    asynchronous?: boolean
 }
 
 export default <T extends object>(props: TypeaheadProps<T>) => {
@@ -43,17 +42,16 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
         props.onInputChange(text)
     }
 
-    const Component = props.asynchronous ? AsyncTypeahead : Typeahead
     return (
-        <Component
+        <AsyncTypeahead
             multiple={props.multiple}
             isLoading={props.loading || loading}
             options={props.options || options}
             onChange={onChange}
-            // promptText="Type to search..."
+            promptText="Type to search..."
             minLength={0}
             defaultInputValue={props.initialValue}
-            // onSearch={search}
+            onSearch={search}
             onInputChange={onInputChange}
             selected={props.selected}
         />
