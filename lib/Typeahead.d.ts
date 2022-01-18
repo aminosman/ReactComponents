@@ -1,4 +1,5 @@
 import { Option } from 'react-bootstrap-typeahead/types/types';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 export interface TypeaheadProps<T> {
     onChange: (item: T[]) => void;
     initialValue?: string;
