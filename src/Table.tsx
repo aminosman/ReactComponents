@@ -85,7 +85,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...pro
 
 const TableLoader = <T extends object>(props: TableProps<T>) => {
 
-    const propKey = props.key || ''
+    const propKey = props.hasOwnProperty("key") ? props.key || '' : ''
 
     const [showModal, setShowModal] = useState<boolean>(false)
     const [editing, setEditing] = useState<Array<ItemEditSchema<T>> | null>(null)
@@ -477,7 +477,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderHeader = () => (
         <tr className="bg-dark text-white">
-            {props.schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`}>{i.label}</th>)}
+            {props.schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
             {props.onRemove && <th />}
             {props.onCreate && <th scope="col">
                 <Button variant="light" className="float-right" onClick={handleShowModal}>
