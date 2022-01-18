@@ -8,7 +8,8 @@ export interface TypeaheadProps<T> {
     onSearch?: (term: string) => Promise<Array<{ label: string }> | null>
     searchOnClick?: boolean,
     onInputChange?: (term: string) => void,
-    options?: Option[]
+    options?: Option[],
+    loading?: boolean
 }
 export default <T extends object>(props: TypeaheadProps<T>) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -40,7 +41,7 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
 
     return (
         <AsyncTypeahead
-            isLoading={loading}
+            isLoading={props.loading || loading}
             options={props.options || options}
             onChange={onChange}
             promptText="Type to search..."

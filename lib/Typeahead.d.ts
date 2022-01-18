@@ -8,6 +8,7 @@ export interface TypeaheadProps<T> {
     searchOnClick?: boolean;
     onInputChange?: (term: string) => void;
     options?: Option[];
+    loading?: boolean;
 }
 declare const _default: <T extends object>(props: TypeaheadProps<T>) => JSX.Element;
 export default _default;
