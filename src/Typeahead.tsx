@@ -3,7 +3,7 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import { Option } from 'react-bootstrap-typeahead/types/types'
 
 export interface TypeaheadProps<T> {
-    onChange: (item: T) => void,
+    onChange: (item: T[]) => void,
     initialValue?: string,
     onSearch?: (term: string) => Promise<Array<{ label: string }>>
     searchOnClick?: boolean,
@@ -34,7 +34,7 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
     }, [])
 
     const onChange = (selected: T[]) => {
-        props.onChange(selected[0])
+        props.onChange(selected)
     }
 
     const onInputChange = (text: string) => {
