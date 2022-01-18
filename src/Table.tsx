@@ -42,7 +42,7 @@ export interface ItemSchema<T> {
 
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);
-    key?: string;
+    key: string;
     onUpdate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onCreate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onRemove?: (item: T) => Promise<boolean>;
@@ -456,7 +456,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderRow = (item: any, index: number) => (
-        <Draggable key={item.id} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
+        <Draggable key={`${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
                     <tr
