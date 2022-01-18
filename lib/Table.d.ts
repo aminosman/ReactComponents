@@ -18,7 +18,7 @@ export interface ItemSchema<T> {
 }
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);
-    key?: string;
+    rootKey?: string;
     onUpdate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onCreate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onRemove?: (item: T) => Promise<boolean>;

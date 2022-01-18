@@ -42,7 +42,7 @@ export interface ItemSchema<T> {
 
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);
-    key: string;
+    rootKey?: string;
     onUpdate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onCreate?: (id: number, object: Array<ItemEditSchema<T>>) => Promise<boolean>;
     onRemove?: (item: T) => Promise<boolean>;
@@ -85,7 +85,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...pro
 
 const TableLoader = <T extends object>(props: TableProps<T>) => {
 
-    const propKey = props.hasOwnProperty("key") ? props.key || '' : ''
+    const propKey = props.rootKey || ''
 
     const [showModal, setShowModal] = useState<boolean>(false)
     const [editing, setEditing] = useState<Array<ItemEditSchema<T>> | null>(null)
@@ -263,7 +263,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             {[...new Array(10)].map(x => Math.max(Math.floor(Math.random() * 250), 125)).map((x, i) => (
                 <tr className="bg-gradient-dark text-white" key={`row-data-loading-${JSON.stringify(i)}-${propKey}`}>
                     {props.schema.map(i => (
-                        <td key={`row-data-td-loading-${JSON.stringify({ ...i, value: undefined })}`}><div style={{ width: 75, height: 10 }} className="mb-2">{renderLoader('', 50, 5)}</div></td>
+                        <td key={`row-data-td-loading-${i.label}-${i.property}-${i.key}`}><div style={{ width: 75, height: 10 }} className="mb-2">{renderLoader('', 50, 5)}</div></td>
                     ))}
                 </tr>
             ))}
