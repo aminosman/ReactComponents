@@ -4,11 +4,12 @@ export interface TypeaheadProps<T> {
     initialValue?: string;
     onSearch?: (term: string) => Promise<Array<{
         label: string;
-    }> | null>;
+    }>>;
     searchOnClick?: boolean;
     onInputChange?: (term: string) => void;
     options?: Option[];
     loading?: boolean;
+    multiple?: boolean;
 }
 declare const _default: <T extends object>(props: TypeaheadProps<T>) => JSX.Element;
 export default _default;

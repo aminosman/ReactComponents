@@ -5,12 +5,14 @@ import { Option } from 'react-bootstrap-typeahead/types/types'
 export interface TypeaheadProps<T> {
     onChange: (item: T) => void,
     initialValue?: string,
-    onSearch?: (term: string) => Promise<Array<{ label: string }> | null>
+    onSearch?: (term: string) => Promise<Array<{ label: string }>>
     searchOnClick?: boolean,
     onInputChange?: (term: string) => void,
     options?: Option[],
-    loading?: boolean
+    loading?: boolean,
+    multiple?: boolean
 }
+
 export default <T extends object>(props: TypeaheadProps<T>) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [options, setOptions] = useState<Option[]>([]);
@@ -41,6 +43,7 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
 
     return (
         <AsyncTypeahead
+            multiple={props.multiple}
             isLoading={props.loading || loading}
             options={props.options || options}
             onChange={onChange}
