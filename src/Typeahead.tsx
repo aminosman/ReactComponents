@@ -2,7 +2,8 @@ import React, { Component, useEffect, useState } from 'react'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import { Option } from 'react-bootstrap-typeahead/types/types'
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-export interface TypeaheadProps<T> {
+import Typeahead from 'react-bootstrap-typeahead/types/core/Typeahead';
+export interface TypeaheadProps<T> extends Typeahead {
     onChange: (item: T[]) => void,
     initialValue?: string,
     onSearch?: (term: string) => Promise<Array<{ label: string }>>
@@ -44,7 +45,7 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
 
     return (
         <AsyncTypeahead
-            multiple={props.multiple}
+            {...props}
             isLoading={props.loading || loading}
             options={props.options || options}
             onChange={onChange}
@@ -52,8 +53,6 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
             minLength={0}
             defaultInputValue={props.initialValue}
             onSearch={search}
-            onInputChange={onInputChange}
-            selected={props.selected}
         />
     )
 }
