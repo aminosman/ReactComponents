@@ -13,7 +13,7 @@ export interface TypeaheadProps<T> extends Typeahead {
     loading?: boolean;
     multiple?: boolean;
     selected: Option[];
-    id: string | number;
+    id: string;
 }
 declare const _default: <T extends object>(props: TypeaheadProps<T>) => JSX.Element;
 export default _default;

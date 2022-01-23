@@ -13,7 +13,7 @@ export interface TypeaheadProps<T> extends Typeahead {
     loading?: boolean,
     multiple?: boolean,
     selected: Option[],
-    id: string | number,
+    id: string,
 }
 
 export default <T extends object>(props: TypeaheadProps<T>) => {
