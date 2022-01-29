@@ -86,7 +86,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...pro
         }
     }, [width])
 
-    return <td ref={ref} className={`${cellClassName || 'bg-dark'}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
+    return <td ref={ref} className={`${cellClassName || ''}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
 }
 
 const TableLoader = <T extends object>(props: TableProps<T>) => {
