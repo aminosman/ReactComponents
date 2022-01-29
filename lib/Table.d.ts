@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { ItemEditSchema, Option } from './global';
+import { Option } from './global';
 export interface ItemSchema<T> {
     label: string | JSX.Element;
     labelClassName?: string;
@@ -15,6 +15,11 @@ export interface ItemSchema<T> {
     CustomComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
     props?: TableProps<any>;
     dependency?: Array<keyof T>;
+}
+export interface ItemEditSchema<T> {
+    property: keyof T;
+    value: any;
+    key?: string;
 }
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);

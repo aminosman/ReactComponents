@@ -12,7 +12,7 @@ import { Alert, Row } from 'react-bootstrap'
 import ContentLoader from 'react-content-loader'
 import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { ItemEditSchema, ItemOptions, Options, Option } from './global'
+import { ItemOptions, Options, Option } from './global'
 
 export interface ItemSchema<T> {
     label: string | JSX.Element;
@@ -38,6 +38,12 @@ export interface ItemSchema<T> {
     ) => JSX.Element | undefined | null;
     props?: TableProps<any>;
     dependency?: Array<keyof T>;
+}
+
+export interface ItemEditSchema<T> {
+    property: keyof T;
+    value: any;
+    key?: string;
 }
 
 export interface TableProps<T> {
