@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { tokenizePath, resolveValue } from 'path-value'
+import { resolveValue } from 'path-value'
 import { useMeasure } from 'react-use'
 
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { Alert, Row } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import ContentLoader from 'react-content-loader'
 import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
@@ -462,7 +462,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderRow = (item: any, index: number) => (
-        <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
+        <Draggable key={`draggable-row-${item.id}-${propKey}-${props.loading}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
                     <tr
