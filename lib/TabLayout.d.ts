@@ -12,5 +12,7 @@ export interface Props {
     defaultPinnedTabs?: string[];
     title?: string;
     loading?: boolean;
+    navLinkContainerProps?: any;
+    navContentContainerProps?: any;
 }
-export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading }: Props): JSX.Element;
+export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps }: Props): JSX.Element;

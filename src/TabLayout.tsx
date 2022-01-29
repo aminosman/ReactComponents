@@ -12,10 +12,12 @@ export interface Props {
     nav: NavItem[],
     defaultPinnedTabs?: string[],
     title?: string
-    loading?: boolean
+    loading?: boolean,
+    navLinkContainerProps?: any
+    navContentContainerProps?: any
 }
 
-export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading }: Props) {
+export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps }: Props) {
     const [pinnedTabs, setPinnedTabs] = useState<boolean[]>(defaultPinnedTabs ? nav.map(x => defaultPinnedTabs?.includes(x.id)) : []);
     const [showAll, setShowAll] = useState<boolean>();
     const [currentTab, setCurrentTab] = useState<string>(defaultActiveKey);
@@ -110,17 +112,23 @@ export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, 
         </ContentLoader>
     )
 
+    const defaultProps = {
+        xs: 12,
+        md: 4,
+        lg: 3,
+    }
+
     return (
         <Tab.Container defaultActiveKey={defaultActiveKey}>
-            <Row className="hidden-print">
-                <Col xs={12} md={4} lg={3}>
+            <Row>
+                <Col {...{ ...defaultProps, ...(navLinkContainerProps || {}) }}>
                     <h3 className="text-center">{typeof title !== 'undefined' && loader(title, 225, 25)}</h3>
                     <Nav variant="pills" className="flex-column sticky-top sticky-top-pad">
                         {renderTabLinks(nav)}
                     </Nav>
                 </Col>
                 <Col>
-                    <Row>
+                    <Row  {...(navContentContainerProps || {})}>
                         {renderTabs()}
                     </Row>
                 </Col>
