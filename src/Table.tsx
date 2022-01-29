@@ -478,7 +478,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderHeader = () => (
         <tr className="bg-dark text-white">
             {props.schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
-            {props.onRemove && <th />}
+            {props.onRemove && (!props.onCreate || !!props.onUpdate) && <th />}
             {props.onCreate && <th scope="col">
                 <Button variant="light" className="float-right" onClick={handleShowModal}>
                     <FontAwesomeIcon icon="plus" className="small" />
