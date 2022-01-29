@@ -461,10 +461,8 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         )
     }
 
-    const renderRow = (item: any, index: number) => {
-        console.log(item)
-        return (
-        <Draggable key={`draggable-row-${item.id}-${propKey}-${props.loading}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
+    const renderRow = (item: any, index: number) => (
+        <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
                     <tr
@@ -482,7 +480,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             )}
         </Draggable>
     )
-    }
 
     const renderHeader = () => (
         <tr className="bg-dark text-white">
