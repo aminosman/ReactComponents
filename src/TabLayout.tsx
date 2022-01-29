@@ -17,7 +17,7 @@ export interface Props {
     navContentContainerProps?: any
 }
 
-export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps }: Props) {
+export default function TabLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps }: Props) {
     const [pinnedTabs, setPinnedTabs] = useState<boolean[]>(defaultPinnedTabs ? nav.map(x => defaultPinnedTabs?.includes(x.id)) : []);
     const [showAll, setShowAll] = useState<boolean>();
     const [currentTab, setCurrentTab] = useState<string>(defaultActiveKey);
