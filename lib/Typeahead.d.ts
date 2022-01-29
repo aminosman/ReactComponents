@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { Option } from 'react-bootstrap-typeahead/types/types';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Typeahead from 'react-bootstrap-typeahead/types/core/Typeahead';

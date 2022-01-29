@@ -112,7 +112,7 @@ export default function TableLayout({ defaultActiveKey, nav, defaultPinnedTabs, 
 
     return (
         <Tab.Container defaultActiveKey={defaultActiveKey}>
-            <Row>
+            <Row className="hidden-print">
                 <Col xs={12} md={4} lg={3}>
                     <h3 className="text-center">{typeof title !== 'undefined' && loader(title, 225, 25)}</h3>
                     <Nav variant="pills" className="flex-column sticky-top sticky-top-pad">
