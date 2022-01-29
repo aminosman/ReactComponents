@@ -12,7 +12,7 @@ export interface TypeaheadProps<T> extends Typeahead {
     options?: Option[],
     loading?: boolean,
     multiple?: boolean,
-    selected: Option[],
+    selected?: Option[],
     id: string,
 }
 
@@ -35,8 +35,8 @@ export default <T extends object>(props: TypeaheadProps<T>) => {
         }
     }, [])
 
-    const onChange = (selected: T[]) => {
-        props.onChange(selected)
+    const onChange = (selectedOptions: T[]) => {
+        props.onChange(selectedOptions)
     }
 
     const onInputChange = (text: string) => {

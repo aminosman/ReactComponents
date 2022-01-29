@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { Option } from 'react-bootstrap-typeahead/types/types';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Typeahead from 'react-bootstrap-typeahead/types/core/Typeahead';
@@ -13,7 +12,7 @@ export interface TypeaheadProps<T> extends Typeahead {
     options?: Option[];
     loading?: boolean;
     multiple?: boolean;
-    selected: Option[];
+    selected?: Option[];
     id: string;
 }
 declare const _default: <T extends object>(props: TypeaheadProps<T>) => JSX.Element;
