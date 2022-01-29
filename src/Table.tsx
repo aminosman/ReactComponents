@@ -462,7 +462,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderRow = (item: any, index: number) => (
-        <Draggable key={`${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
+        <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
                     <tr
