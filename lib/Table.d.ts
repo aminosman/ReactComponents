@@ -32,7 +32,7 @@ export interface TableProps<T> {
     clickType?: string;
     parentId: number;
     schema: Array<ItemSchema<T>>;
-    nestedSchema?: Array<ItemSchema<T>>;
+    nestedSchema?: Array<ItemSchema<any>>;
     loading?: boolean;
     ListEmptyComponent?: JSX.Element;
     onSort?: (id: number, position: number) => void;

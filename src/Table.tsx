@@ -57,7 +57,7 @@ export interface TableProps<T> {
     clickType?: string;
     parentId: number;
     schema: Array<ItemSchema<T>>;
-    nestedSchema?: Array<ItemSchema<T>>;
+    nestedSchema?: Array<ItemSchema<any>>;
     loading?: boolean;
     ListEmptyComponent?: JSX.Element;
     onSort?: (id: number, position: number) => void;
@@ -468,7 +468,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         )
     }
 
-    const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>) => (
+    const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>) => {
+        if ((item as any).children?.length) debugger
+        return (
         <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
@@ -482,9 +484,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     >
                         {renderRowContents(item, snapshot, schema)}
                     </tr>
-                    {Array.isArray((item as any).children) && !!(item as any).children?.length && !!props.nestedSchema && (<tr><td colSpan={props.schema?.length}>
+                        {Array.isArray((item as any).children) && !!(item as any).children?.length && Array.isArray(props.nestedSchema) && (<tr><td colSpan={props.schema?.length}>
                         <table className="table mb-0">
-                            {Array.isArray(props.nestedSchema) && renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>)}
+                                {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>)}
                         </table>
                     </td></tr>)}
                     {provided.placeholder}
@@ -492,6 +494,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             )}
         </Draggable>
     )
+    }
 
     const renderHeader = (schema: Array<ItemSchema<T>>) => (
         <tr className="bg-dark text-white">
