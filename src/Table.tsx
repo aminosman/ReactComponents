@@ -57,6 +57,7 @@ export interface TableProps<T> {
     clickType?: string;
     parentId: number;
     schema: Array<ItemSchema<T>>;
+    nestedSchema?: Array<ItemSchema<T>>;
     loading?: boolean;
     ListEmptyComponent?: JSX.Element;
     onSort?: (id: number, position: number) => void;
@@ -429,18 +430,18 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         return typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))
     }
 
-    const renderRowContents = (item: T, snapshot: DraggableStateSnapshot) => {
+    const renderRowContents = (item: T, snapshot: DraggableStateSnapshot, schema: Array<ItemSchema<T>>) => {
         const rows = []
         if (props?.onClick && props.clickType === 'link') {
-            rows.push(props.schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-link`}>
+            rows.push(schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-link`}>
                 <Link className="text-white" target="_blank" to={props?.onClick && props?.onClick(item)}>{renderItemProp(i, item)}</Link>
             </td>))
         } else if (props?.onClick) {
-            rows.push(props.schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-click`}>
+            rows.push(schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-click`}>
                 <Button variant="link" className="text-white" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
         } else {
-            rows.push(props.schema.map(i => (
+            rows.push(schema.map(i => (
                 <>
                     <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
                         {renderItemProp(i, item)}
@@ -467,7 +468,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         )
     }
 
-    const renderRow = (item: any, index: number) => (
+    const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>) => (
         <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
@@ -479,11 +480,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         {...provided.dragHandleProps}
                         style={provided.draggableProps.style}
                     >
-                        {renderRowContents(item, snapshot)}
+                        {renderRowContents(item, snapshot, schema)}
                     </tr>
-                    {Array.isArray((item as any).children) && (<tr><td colSpan={props.schema?.length}>
+                    {Array.isArray((item as any).children) && !!(item as any).children?.length && !!props.nestedSchema && (<tr><td colSpan={props.schema?.length}>
                         <table className="table mb-0">
-                            {((item as any).children || []).map((c: T, i: number) => renderRow(c, i))}
+                            {Array.isArray(props.nestedSchema) && renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>)}
                         </table>
                     </td></tr>)}
                     {provided.placeholder}
@@ -492,9 +493,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         </Draggable>
     )
 
-    const renderHeader = () => (
+    const renderHeader = (schema: Array<ItemSchema<T>>) => (
         <tr className="bg-dark text-white">
-            {props.schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
+            {schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
             {props.onRemove && (!props.onCreate || !!props.onUpdate) && <th />}
             {props.onCreate && <th scope="col">
                 <Button variant="light" className="float-right" onClick={handleShowModal}>
@@ -504,7 +505,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         </tr>
     )
 
-    return (
+    const renderTable = (itemsToRender: T[], schema: Array<ItemSchema<T>>) => (
         <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable" isDropDisabled={!props.onDragEnd}>
                 {(provided, snapshot) => (
@@ -513,17 +514,23 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         className={`table table-hover table-dark ${props.tableClassName}`}
                     >
                         <thead>
-                            {renderHeader()}
+                            {renderHeader(schema)}
                         </thead>
                         <tbody>
-                            {props.loading ? renderLoadingTable() : items.map(renderRow)}
+                            {props.loading ? renderLoadingTable() : itemsToRender.map((item, index) => renderRow(item, index, schema))}
                             {provided.placeholder}
                         </tbody>
                     </table>)}
             </Droppable>
+        </DragDropContext>
+    )
+
+    return (
+        <>
+            {renderTable(items, props.schema)}
             {props.loading || items?.length ? null : props.ListEmptyComponent}
             {renderCreateModal()}
-        </DragDropContext>
+        </>
     )
 }
 
