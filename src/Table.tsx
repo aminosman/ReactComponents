@@ -484,10 +484,8 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     >
                         {renderRowContents(item, snapshot, schema, cellClassName)}
                     </tr>
-                    {Array.isArray((item as any).children) && !!(item as any).children?.length && Array.isArray(props.nestedSchema) && (<tr className="bg-mars-dark"><td colSpan={props.schema?.length}>
-                        <table className="table mb-0">
-                            {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName, props.nestedCellClassName)}
-                        </table>
+                    {Array.isArray((item as any).children) && !!(item as any).children?.length && Array.isArray(props.nestedSchema) && (<tr className="bg-mars-dark p-0"><td colSpan={props.schema?.length}>
+                        {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName, props.nestedCellClassName)}
                     </td></tr>)}
                     {provided.placeholder}
                 </>
