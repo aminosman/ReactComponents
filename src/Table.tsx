@@ -89,7 +89,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...pro
     return <td ref={ref} className={`${cellClassName || ''}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
 }
 
-const TableLoader = <T extends { children?: T[] }>(props: TableProps<T>) => {
+const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const propKey = props.rootKey || ''
 
@@ -423,7 +423,7 @@ const TableLoader = <T extends { children?: T[] }>(props: TableProps<T>) => {
         if (value === true) return 'Yes'
         if (value === false) return 'No'
         return value
-    }
+    } 
 
     const renderItemProp = (i: ItemSchema<T>, item: T) => {
         return typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))
@@ -443,7 +443,7 @@ const TableLoader = <T extends { children?: T[] }>(props: TableProps<T>) => {
             rows.push(props.schema.map(i => (
                 <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
                     {renderItemProp(i, item)}
-                    {(item.children || []).map(c => renderRowContents(c, snapshot))}
+                    {((item as any).children || []).map((c: T) => renderRowContents(c, snapshot))}
                 </TableCell>
             )))
         }
