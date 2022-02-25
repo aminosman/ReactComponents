@@ -89,7 +89,7 @@ const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...pro
     return <td ref={ref} className={`${cellClassName || ''}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
 }
 
-const TableLoader = <T extends object>(props: TableProps<T>) => {
+const TableLoader = <T extends { children?: T[] }>(props: TableProps<T>) => {
 
     const propKey = props.rootKey || ''
 
@@ -440,7 +440,12 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 <Button variant="link" className="text-white" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
         } else {
-            rows.push(props.schema.map(i => <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>{renderItemProp(i, item)}</TableCell>))
+            rows.push(props.schema.map(i => (
+                <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
+                    {renderItemProp(i, item)}
+                    {(item.children || []).map(c => renderRowContents(c, snapshot))}
+                </TableCell>
+            )))
         }
         if (props.onUpdate) {
             rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-${propKey}-update-${JSON.stringify(item)}`}>

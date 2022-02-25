@@ -48,5 +48,7 @@ export declare type TableCellProps = {
     id?: string;
     cellClassName?: string;
 };
-declare const TableLoader: <T extends object>(props: TableProps<T>) => JSX.Element;
+declare const TableLoader: <T extends {
+    children?: T[] | undefined;
+}>(props: TableProps<T>) => JSX.Element;
 export default TableLoader;
