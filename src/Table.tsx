@@ -443,7 +443,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             rows.push(props.schema.map(i => (
                 <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
                     {renderItemProp(i, item)}
-                    {((item as any).children || []).map((c: T) => renderRowContents(c, snapshot))}
+                    {Array.isArray((item as any).children) && (<td colSpan={props.schema?.length}>
+                        <table className="table mb-0">
+                            {((item as any).children || []).map((c: T) => renderRowContents(c, snapshot))}
+                        </table>
+                    </td>)}
                 </TableCell>
             )))
         }
