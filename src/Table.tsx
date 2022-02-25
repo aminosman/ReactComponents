@@ -445,11 +445,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
                         {renderItemProp(i, item)}
                     </TableCell>
-                    {Array.isArray((item as any).children) && (<tr><td colSpan={props.schema?.length}>
-                        <table className="table mb-0">
-                            {((item as any).children || []).map((c: T) => renderRowContents(c, snapshot))}
-                        </table>
-                    </td></tr>)}
                 </>
             )))
         }
@@ -486,6 +481,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     >
                         {renderRowContents(item, snapshot)}
                     </tr>
+                    {Array.isArray((item as any).children) && (<tr><td colSpan={props.schema?.length}>
+                        <table className="table mb-0">
+                            {((item as any).children || []).map((c: T, i: number) => renderRow(c, i))}
+                        </table>
+                    </td></tr>)}
                     {provided.placeholder}
                 </>
             )}
