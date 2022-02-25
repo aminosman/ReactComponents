@@ -65,6 +65,7 @@ export interface TableProps<T> {
     cellClassName?: string;
     tableClassName?: string;
     nestedTableClassName?: string;
+    nestedCellClassName?: string;
 }
 
 export type TableCellProps = {
@@ -431,7 +432,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         return typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))
     }
 
-    const renderRowContents = (item: T, snapshot: DraggableStateSnapshot, schema: Array<ItemSchema<T>>) => {
+    const renderRowContents = (item: T, snapshot: DraggableStateSnapshot, schema: Array<ItemSchema<T>>, cellClassName?: string) => {
         const rows = []
         if (props?.onClick && props.clickType === 'link') {
             rows.push(schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-link`}>
@@ -444,7 +445,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         } else {
             rows.push(schema.map(i => (
                 <>
-                    <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
+                    <TableCell cellClassName={cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
                         {renderItemProp(i, item)}
                     </TableCell>
                 </>
@@ -469,7 +470,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         )
     }
 
-    const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>) => (
+    const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>, cellClassName?: string) => (
         <Draggable key={`draggable-row-${item.id}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <>
@@ -481,11 +482,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         {...provided.dragHandleProps}
                         style={provided.draggableProps.style}
                     >
-                        {renderRowContents(item, snapshot, schema)}
+                        {renderRowContents(item, snapshot, schema, cellClassName)}
                     </tr>
                     {Array.isArray((item as any).children) && !!(item as any).children?.length && Array.isArray(props.nestedSchema) && (<tr className="bg-dark"><td colSpan={props.schema?.length}>
                         <table className="table mb-0">
-                            {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName)}
+                            {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName, props.nestedCellClassName)}
                         </table>
                     </td></tr>)}
                     {provided.placeholder}
@@ -506,7 +507,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         </tr>
     )
 
-    const renderTable = (itemsToRender: T[], schema: Array<ItemSchema<T>>, tableClassName?: string) => (
+    const renderTable = (itemsToRender: T[], schema: Array<ItemSchema<T>>, tableClassName?: string, cellClassName?: string) => (
         <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable" isDropDisabled={!props.onDragEnd}>
                 {(provided, snapshot) => (
@@ -518,7 +519,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             {renderHeader(schema)}
                         </thead>
                         <tbody>
-                            {props.loading ? renderLoadingTable() : itemsToRender.map((item, index) => renderRow(item, index, schema))}
+                            {props.loading ? renderLoadingTable() : itemsToRender.map((item, index) => renderRow(item, index, schema, cellClassName))}
                             {provided.placeholder}
                         </tbody>
                     </table>)}
@@ -528,7 +529,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     return (
         <>
-            {renderTable(items, props.schema, props.tableClassName)}
+            {renderTable(items, props.schema, props.tableClassName, props.cellClassName)}
             {props.loading || items?.length ? null : props.ListEmptyComponent}
             {renderCreateModal()}
         </>

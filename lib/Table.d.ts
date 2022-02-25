@@ -40,6 +40,7 @@ export interface TableProps<T> {
     cellClassName?: string;
     tableClassName?: string;
     nestedTableClassName?: string;
+    nestedCellClassName?: string;
 }
 export declare type TableCellProps = {
     children?: any;
