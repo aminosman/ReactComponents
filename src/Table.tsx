@@ -441,14 +441,16 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             </td>))
         } else {
             rows.push(props.schema.map(i => (
-                <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
-                    {renderItemProp(i, item)}
-                    {Array.isArray((item as any).children) && (<td colSpan={props.schema?.length}>
+                <>
+                    <TableCell cellClassName={props.cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
+                        {renderItemProp(i, item)}
+                    </TableCell>
+                    {Array.isArray((item as any).children) && (<tr><td colSpan={props.schema?.length}>
                         <table className="table mb-0">
                             {((item as any).children || []).map((c: T) => renderRowContents(c, snapshot))}
                         </table>
-                    </td>)}
-                </TableCell>
+                    </td></tr>)}
+                </>
             )))
         }
         if (props.onUpdate) {
