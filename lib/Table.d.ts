@@ -39,6 +39,7 @@ export interface TableProps<T> {
     rowClassName?: string;
     cellClassName?: string;
     tableClassName?: string;
+    nestedTableClassName?: string;
 }
 export declare type TableCellProps = {
     children?: any;

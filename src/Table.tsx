@@ -64,6 +64,7 @@ export interface TableProps<T> {
     rowClassName?: string;
     cellClassName?: string;
     tableClassName?: string;
+    nestedTableClassName?: string;
 }
 
 export type TableCellProps = {
@@ -484,7 +485,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     </tr>
                     {Array.isArray((item as any).children) && !!(item as any).children?.length && Array.isArray(props.nestedSchema) && (<tr><td colSpan={props.schema?.length}>
                         <table className="table mb-0">
-                            {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>)}
+                            {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName)}
                         </table>
                     </td></tr>)}
                     {provided.placeholder}
@@ -505,13 +506,13 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         </tr>
     )
 
-    const renderTable = (itemsToRender: T[], schema: Array<ItemSchema<T>>) => (
+    const renderTable = (itemsToRender: T[], schema: Array<ItemSchema<T>>, tableClassName?: string) => (
         <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable" isDropDisabled={!props.onDragEnd}>
                 {(provided, snapshot) => (
                     <table
                         ref={provided.innerRef}
-                        className={`table table-hover table-dark ${props.tableClassName}`}
+                        className={`table table-hover table-dark ${tableClassName}`}
                     >
                         <thead>
                             {renderHeader(schema)}
@@ -527,7 +528,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     return (
         <>
-            {renderTable(items, props.schema)}
+            {renderTable(items, props.schema, props.tableClassName)}
             {props.loading || items?.length ? null : props.ListEmptyComponent}
             {renderCreateModal()}
         </>
