@@ -440,7 +440,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             </td>))
         } else if (props?.onClick) {
             rows.push(schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-click`}>
-                <Button variant="link" className="text-white" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
+                <Button variant="link" className="text-link" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
         } else {
             rows.push(schema.map(i => (
