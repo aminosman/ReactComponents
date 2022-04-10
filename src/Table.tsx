@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { Alert } from 'react-bootstrap'
+import { Alert, InputGroup } from 'react-bootstrap'
 import ContentLoader from 'react-content-loader'
 import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
@@ -32,6 +32,7 @@ export interface ItemSchema<T> {
     itemBasedOptions?: (item: T) => string[]
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
+    units?: (item: T) => string;
     key?: string;
     editable?: boolean;
 
@@ -282,6 +283,13 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         </>
     )
 
+    const renderUnits = (units: string) => {
+        if (!units) return null
+        return (
+            <InputGroup.Text>{units}</InputGroup.Text>
+        )
+    }
+
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
         if (!editingField) return null
@@ -324,6 +332,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             <option />
                             {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
                         </Form.Control>
+                        {renderUnits(item?.units?.(editingField.item) || '')}
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
                         </Form.Control.Feedback>
@@ -342,6 +351,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
                             disabled={item.editable === false}
                         />
+                        {renderUnits(item?.units?.(editingField.item) || '')}
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
                         </Form.Control.Feedback>

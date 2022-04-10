@@ -13,6 +13,7 @@ export interface ItemSchema<T> {
     itemBasedOptions?: (item: T) => string[];
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
+    units?: (item: T) => string;
     key?: string;
     editable?: boolean;
     CustomComponent?: (props: {
