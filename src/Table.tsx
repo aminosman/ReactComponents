@@ -286,7 +286,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderUnits = (units: string) => {
         if (!units) return null
         return (
+            <InputGroup.Append>
             <InputGroup.Text>{units}</InputGroup.Text>
+            </InputGroup.Append>
         )
     }
 
@@ -318,6 +320,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 return (
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
+                        <InputGroup>
                         <Form.Control
                             disabled={item.editable === false}
                             as="select"
@@ -332,6 +335,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             <option />
                             {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
                         </Form.Control>
+                        </InputGroup>
                         {renderUnits(item?.units?.(editingField.item) || '')}
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
