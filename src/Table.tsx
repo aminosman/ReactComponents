@@ -282,6 +282,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
+        console.warn({ editingField, item })
         if (!editingField) return null
         if (item.renderComponent && typeof item.renderComponent === 'function')
             return (
