@@ -225,8 +225,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderItemOptions = (property: any, options: string[]) => {
         return (
             options.map((option) => {
-                const kvPair = props.schema.find(s => s.property === property)?.extractor?.(option)
-                return (<option key={`${property}-${option}`} value={`${kvPair?.key}`}>
+                return (<option key={`${property}-${option}`} value={`${option}`}>
                     {option}
                 </option>)
             })
