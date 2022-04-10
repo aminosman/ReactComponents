@@ -283,12 +283,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
         if (!editingField) return null
-        if (item.editable === false) return (
-            <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
-                <Form.Label className="text-white">{item.label}</Form.Label>
-                {editingField.value}
-            </Form.Group>
-        )
         if (item.renderComponent && typeof item.renderComponent === 'function')
             return (
                 <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
@@ -313,6 +307,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <Form.Control
+                            disabled={item.editable !== false}
                             as="select"
                             required={item.required}
                             value={`${item?.extractor?.(editingField.value)?.key}`}
@@ -341,6 +336,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             value={editingField.value !== null ? item.type === 'number' ? editingField.value
                                 : `${editingField.value}` : ''}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
+                            disabled={item.editable !== false}
                         />
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
@@ -360,6 +356,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             label={item.label}
                             checked={editingField.value}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.checked)}
+                            disabled={item.editable !== false}
                         />
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
