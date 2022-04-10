@@ -283,7 +283,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
         if (!editingField) return null
-        if (!item.editable) return (
+        if (item.editable === false) return (
             <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
                 <Form.Label className="text-white">{editingField.value}</Form.Label>
             </Form.Group>
