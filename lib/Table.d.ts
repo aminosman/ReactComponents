@@ -12,9 +12,10 @@ export interface ItemSchema<T> {
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
     key?: string;
+    editable?: boolean;
     CustomComponent?: (props: {
         onChange: (val: any) => void;
-        item: T;
+        item: any;
     }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
     props?: TableProps<any>;

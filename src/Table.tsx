@@ -285,7 +285,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         if (!editingField) return null
         if (!item.editable) return (
             <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
-                <Form.Label className="text-white">{item?.extractor?.(editingField.value)?.key}</Form.Label>
+                <Form.Label className="text-white">{editingField.value}</Form.Label>
             </Form.Group>
         )
         if (item.renderComponent && typeof item.renderComponent === 'function')
