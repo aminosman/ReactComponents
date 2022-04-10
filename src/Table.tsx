@@ -46,7 +46,7 @@ export interface ItemEditSchema<T> {
     property: keyof T;
     value: any;
     key?: string;
-    item: T | null
+    item: T
 }
 
 export interface TableProps<T> {
@@ -171,7 +171,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         await loadOptions()
         clearEditFields()
         setEditingId(item ? item['id'] : null)
-        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })))
+        setEditing(item ? props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })) : null)
         setShowModal(true)
     }
 
@@ -205,18 +205,29 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         setEditing(null)
     }
 
-    const renderOptions = (property: any, options?: string[]) => {
+    const renderOptions = (property: any) => {
         if (loadingOptions) return <option>Loading...</option>
         if (!optionsMap) return <option>No Options Found</option>
-        const _options = Array.isArray(options) ? options : optionsMap.get(property)
+        const options = optionsMap.get(property)
         const currentItem = (editing || []).find(y => y.property === property)
         if (!currentItem) return <option>Failed to load value</option>
-        if (!Array.isArray(_options)) return <option>No Options Found</option>
+        if (!Array.isArray(options)) return <option>No Options Found</option>
         return (
-            _options.map((option) => {
+            options.map((option) => {
                 const kvPair = props.schema.find(s => s.property === property)?.extractor?.(option)
                 return (<option key={`${property}-${kvPair?.key}-${kvPair?.value}`} value={`${kvPair?.key}`}>
                     {kvPair?.value}
+                </option>)
+            })
+        )
+    }
+
+    const renderItemOptions = (property: any, options: string[]) => {
+        return (
+            options.map((option) => {
+                const kvPair = props.schema.find(s => s.property === property)?.extractor?.(option)
+                return (<option key={`${property}-${option}`} value={`${kvPair?.key}`}>
+                    {option}
                 </option>)
             })
         )
@@ -322,7 +333,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             }}
                         >
                             <option />
-                            {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
+                            {editingField.item && item.itemBasedOptions ? renderItemOptions(item.property, item.itemBasedOptions(editingField.item)) : renderOptions(item.property)}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.

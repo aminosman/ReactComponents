@@ -27,7 +27,7 @@ export interface ItemEditSchema<T> {
     property: keyof T;
     value: any;
     key?: string;
-    item: T | null;
+    item: T;
 }
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);
