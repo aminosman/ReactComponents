@@ -32,8 +32,9 @@ export interface ItemSchema<T> {
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
     key?: string;
+    editable?: boolean;
 
-    CustomComponent?: (props: { onChange: (val: any) => void, item: T }) => JSX.Element | null;
+    CustomComponent?: (props: { onChange: (val: any) => void, item: any }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
 
     props?: TableProps<any>;
@@ -282,6 +283,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
         if (!editingField) return null
+        if (!item.editable) return (
+            <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
+                <Form.Label className="text-white">{item?.extractor?.(editingField.value)?.key}</Form.Label>
+            </Form.Group>
+        )
         if (item.renderComponent && typeof item.renderComponent === 'function')
             return (
                 <Form.Group as={Col} controlId="editLabel" key={`${item.label}-label`}>
