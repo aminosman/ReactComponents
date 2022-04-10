@@ -334,9 +334,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         >
                             <option />
                             {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
-                        </Form.Control>
-                        </InputGroup>
+                            </Form.Control>
                         {renderUnits(item?.units?.(editingField.item) || '')}
+                        </InputGroup>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
                         </Form.Control.Feedback>
@@ -347,6 +347,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 return (
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
+                        <InputGroup>
                         <Form.Control
                             required={item.required}
                             type={type}
@@ -356,6 +357,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             disabled={item.editable === false}
                         />
                         {renderUnits(item?.units?.(editingField.item) || '')}
+                        </InputGroup>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
                         </Form.Control.Feedback>
