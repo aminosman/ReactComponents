@@ -14,21 +14,22 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ItemOptions, Options, Option } from './global'
 
-export interface ItemSchema<T> {
-    label: string | JSX.Element;
-    labelClassName?: string;
-    labelStyle?: any;
-    property: keyof T;
-    options?: (term?: string) => Promise<any[] | null> | any[] | null;
-    required?: boolean;
-    type:
-    | "text"
+type InputType = "text"
     | "select"
     | "switch"
     | "number"
     | "checkbox"
     | "custom"
     | "table";
+export interface ItemSchema<T> {
+    label: string | JSX.Element;
+    labelClassName?: string;
+    labelStyle?: any;
+    property: keyof T;
+    options?: () => Promise<any[] | null> | any[] | null;
+    required?: boolean;
+    type: InputType | ((item: T) => InputType);
+    itemBasedOptions?: (item: T) => string[]
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
     key?: string;
@@ -45,6 +46,7 @@ export interface ItemEditSchema<T> {
     property: keyof T;
     value: any;
     key?: string;
+    item: T | null
 }
 
 export interface TableProps<T> {
@@ -203,15 +205,15 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         setEditing(null)
     }
 
-    const renderOptions = (property: any) => {
+    const renderOptions = (property: any, options?: string[]) => {
         if (loadingOptions) return <option>Loading...</option>
         if (!optionsMap) return <option>No Options Found</option>
-        const options = optionsMap.get(property)
+        const _options = Array.isArray(options) ? options : optionsMap.get(property)
         const currentItem = (editing || []).find(y => y.property === property)
         if (!currentItem) return <option>Failed to load value</option>
-        if (!Array.isArray(options)) return <option>No Options Found</option>
+        if (!Array.isArray(_options)) return <option>No Options Found</option>
         return (
-            options.map((option) => {
+            _options.map((option) => {
                 const kvPair = props.schema.find(s => s.property === property)?.extractor?.(option)
                 return (<option key={`${property}-${kvPair?.key}-${kvPair?.value}`} value={`${kvPair?.key}`}>
                     {kvPair?.value}
@@ -282,7 +284,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
-        console.warn({ editingField, item })
         if (!editingField) return null
         if (item.renderComponent && typeof item.renderComponent === 'function')
             return (
@@ -302,7 +303,8 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editingField.value} />
                 </Form.Group>
             )
-        switch (item.type) {
+        const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type
+        switch (type) {
             case 'select':
                 return (
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
@@ -319,7 +321,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             }}
                         >
                             <option />
-                            {renderOptions(item.property)}
+                            {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
@@ -333,7 +335,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <Form.Control
                             required={item.required}
-                            type={item.type}
+                            type={type}
                             value={editingField.value !== null ? item.type === 'number' ? editingField.value
                                 : `${editingField.value}` : ''}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
@@ -353,7 +355,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         <Form.Check
                             className="form-control-lg text-white"
                             required={item.required}
-                            type={item.type}
+                            type={type}
                             label={item.label}
                             checked={editingField.value}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.checked)}

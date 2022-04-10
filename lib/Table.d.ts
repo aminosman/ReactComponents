@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Option } from './global';
+declare type InputType = "text" | "select" | "switch" | "number" | "checkbox" | "custom" | "table";
 export interface ItemSchema<T> {
     label: string | JSX.Element;
     labelClassName?: string;
     labelStyle?: any;
     property: keyof T;
-    options?: (term?: string) => Promise<any[] | null> | any[] | null;
+    options?: () => Promise<any[] | null> | any[] | null;
     required?: boolean;
-    type: "text" | "select" | "switch" | "number" | "checkbox" | "custom" | "table";
+    type: InputType | ((item: T) => InputType);
+    itemBasedOptions?: (item: T) => string[];
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
     key?: string;
@@ -25,6 +27,7 @@ export interface ItemEditSchema<T> {
     property: keyof T;
     value: any;
     key?: string;
+    item: T | null;
 }
 export interface TableProps<T> {
     items: T[] | ((l: any) => T[]);
