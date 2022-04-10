@@ -307,7 +307,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <Form.Control
-                            disabled={item.editable !== false}
+                            disabled={item.editable === false}
                             as="select"
                             required={item.required}
                             value={`${item?.extractor?.(editingField.value)?.key}`}
@@ -336,7 +336,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             value={editingField.value !== null ? item.type === 'number' ? editingField.value
                                 : `${editingField.value}` : ''}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
-                            disabled={item.editable !== false}
+                            disabled={item.editable === false}
                         />
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
@@ -356,7 +356,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             label={item.label}
                             checked={editingField.value}
                             onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.checked)}
-                            disabled={item.editable !== false}
+                            disabled={item.editable === false}
                         />
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
