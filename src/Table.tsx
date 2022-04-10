@@ -119,7 +119,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 if (itemSchema.type === 'table') {
                     value = getOrignalVlaue(item, itemSchema)
                 }
-                return { ...itemSchema, value }
+                return { ...itemSchema, value, item }
             }))
     }, [items])
 
@@ -169,7 +169,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         await loadOptions()
         clearEditFields()
         setEditingId(item ? item['id'] : null)
-        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema) })))
+        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })))
         setShowModal(true)
     }
 
