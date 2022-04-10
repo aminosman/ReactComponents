@@ -205,28 +205,18 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         setEditing(null)
     }
 
-    const renderOptions = (property: any) => {
+    const renderOptions = (property: any, options?: string[]) => {
         if (loadingOptions) return <option>Loading...</option>
         if (!optionsMap) return <option>No Options Found</option>
-        const options = optionsMap.get(property)
+        const _options = Array.isArray(options) ? options : optionsMap.get(property)
         const currentItem = (editing || []).find(y => y.property === property)
         if (!currentItem) return <option>Failed to load value</option>
-        if (!Array.isArray(options)) return <option>No Options Found</option>
+        if (!Array.isArray(_options)) return <option>No Options Found</option>
         return (
-            options.map((option) => {
+            _options.map((option) => {
                 const kvPair = props.schema.find(s => s.property === property)?.extractor?.(option)
                 return (<option key={`${property}-${kvPair?.key}-${kvPair?.value}`} value={`${kvPair?.key}`}>
                     {kvPair?.value}
-                </option>)
-            })
-        )
-    }
-
-    const renderItemOptions = (property: any, options: string[]) => {
-        return (
-            options.map((option) => {
-                return (<option key={`${property}-${option}`} value={`${option}`}>
-                    {option}
                 </option>)
             })
         )
@@ -332,7 +322,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             }}
                         >
                             <option />
-                            {editingField.item && item.itemBasedOptions ? renderItemOptions(item.property, item.itemBasedOptions(editingField.item)) : renderOptions(item.property)}
+                            {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
