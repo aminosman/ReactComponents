@@ -314,7 +314,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 </Form.Group>
             )
         const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type
-        console.warn({ type, editingField, item })
+        console.warn({ type })
         switch (type) {
             case 'select':
                 return (
