@@ -47,7 +47,7 @@ export interface ItemEditSchema<T> {
     property: keyof T;
     value: any;
     key?: string;
-    item: T
+    item: T | null
 }
 
 export interface TableProps<T> {
@@ -172,7 +172,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         await loadOptions()
         clearEditFields()
         setEditingId(item ? item['id'] : null)
-        setEditing(item ? props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })) : null)
+        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })))
         setShowModal(true)
     }
 
@@ -314,7 +314,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 </Form.Group>
             )
         const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type
-        console.warn({ type })
         switch (type) {
             case 'select':
                 return (
