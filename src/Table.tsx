@@ -32,7 +32,7 @@ export interface ItemSchema<T> {
     itemBasedOptions?: (item: T) => string[]
     extractor?: (x: any) => Option;
     value?: (item: T) => string | JSX.Element;
-    units?: (item: T) => string;
+    units?: (item: T | null) => string;
     key?: string;
     editable?: boolean;
 
@@ -310,7 +310,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Label className="text-white">
                         {item.label}
                     </Form.Label>
-                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editingField.value} />
+                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editing} />
                 </Form.Group>
             )
         const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type
