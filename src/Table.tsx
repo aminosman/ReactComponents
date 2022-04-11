@@ -310,7 +310,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Label className="text-white">
                         {item.label}
                     </Form.Label>
-                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editing} />
+                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editingField.item} />
                 </Form.Group>
             )
         const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type
