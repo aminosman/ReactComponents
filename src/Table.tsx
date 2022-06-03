@@ -36,11 +36,10 @@ export interface ItemSchema<T> {
     key?: string;
     editable?: boolean;
 
-    CustomComponent?: (props: { onChange: (val: any) => void, item: any }) => JSX.Element | null;
+    CustomComponent?: (props: { onChange: (val: any) => void, item: any, onEditValueChange: (property: any, value: any) => void }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
 
     props?: TableProps<any>;
-    dependency?: Array<keyof T>;
 }
 
 export interface ItemEditSchema<T> {
@@ -310,7 +309,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Label className="text-white">
                         {item.label}
                     </Form.Label>
-                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} item={editingField.item} />
+                    <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} onEditValueChange={onEditValueChange} item={editingField.item} />
                 </Form.Group>
             )
         const type = typeof item.type === 'function' ? editingField.item ? item.type?.(editingField.item) : 'text' : item.type

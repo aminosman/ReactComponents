@@ -19,10 +19,10 @@ export interface ItemSchema<T> {
     CustomComponent?: (props: {
         onChange: (val: any) => void;
         item: any;
+        onEditValueChange: (property: any, value: any) => void;
     }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
     props?: TableProps<any>;
-    dependency?: Array<keyof T>;
 }
 export interface ItemEditSchema<T> {
     property: keyof T;
