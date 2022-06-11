@@ -460,7 +460,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     } 
 
     const renderItemProp = (i: ItemSchema<T>, item: T) => {
-        return `${typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))}${i.units ? ' ' + i.units(item) : ''}`
+        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))} {i.units ? ' ' + i.units(item) : ''}</>
     }
 
     const renderRowContents = (item: T, snapshot: DraggableStateSnapshot, schema: Array<ItemSchema<T>>, cellClassName?: string) => {
