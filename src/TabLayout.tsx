@@ -15,6 +15,7 @@ export interface Props {
     loading?: boolean,
     navLinkContainerProps?: any
     navContentContainerProps?: any
+    onTitleEdit?: () => void
 }
 
 export default function TabLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps, onTitleEdit }: Props) {
