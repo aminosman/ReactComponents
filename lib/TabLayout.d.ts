@@ -15,4 +15,4 @@ export interface Props {
     navLinkContainerProps?: any;
     navContentContainerProps?: any;
 }
-export default function TabLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps }: Props): JSX.Element;
+export default function TabLayout({ defaultActiveKey, nav, defaultPinnedTabs, title, loading, navLinkContainerProps, navContentContainerProps, onTitleEdit }: Props): JSX.Element;
