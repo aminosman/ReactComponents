@@ -125,7 +125,7 @@ export default function TabLayout({ defaultActiveKey, nav, defaultPinnedTabs, ti
                 <Col {...{ ...defaultProps, ...(navLinkContainerProps || {}) }}>
                     <h3 className="text-center">
                         {typeof title !== 'undefined' && loader(title, 225, 25)}
-                        {onTitleEdit && <FontAwesomeIcon className="text-white" icon="edit" />}
+                        {onTitleEdit && <FontAwesomeIcon className="text-white" icon="edit" onClick={onTitleEdit} />}
                     </h3>
                     <Nav variant="pills" className="flex-column sticky-top sticky-top-pad">
                         {renderTabLinks(nav)}
