@@ -177,7 +177,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const handleRemove = async (item: T) => {
         if (!props.onRemove) return
-        if (window.confirm(`Are you sure you want to remove ${(item as any).name || item[props.schema[0].property] || props.schema[0]?.value?.(item) || ''}?`)) {
+        if (window.confirm(`Are you sure you want to remove ${(item as any).name || props.schema[0]?.value?.(item) || item[props.schema[0].property] || ''}?`)) {
             props.onRemove(item)
         }
     }
