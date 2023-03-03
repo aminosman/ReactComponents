@@ -16,6 +16,7 @@ export interface ItemSchema<T> {
     units?: (item: T | null) => string;
     key?: string;
     editable?: boolean;
+    onClick?: (item: T, property: keyof T) => any;
     CustomComponent?: (props: {
         onChange: (val: any) => void;
         item: any;
