@@ -35,7 +35,7 @@ export interface ItemSchema<T> {
     units?: (item: T | null) => string;
     key?: string;
     editable?: boolean;
-
+    onClick?: (item: T, property: keyof T) => any;
     CustomComponent?: (props: { onChange: (val: any) => void, item: any, onEditValueChange: (property: any, value: any) => void }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
 
@@ -286,7 +286,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         if (!units) return null
         return (
             <InputGroup.Append>
-            <InputGroup.Text>{units}</InputGroup.Text>
+                <InputGroup.Text>{units}</InputGroup.Text>
             </InputGroup.Append>
         )
     }
@@ -319,21 +319,21 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <InputGroup>
-                        <Form.Control
-                            disabled={item.editable === false}
-                            as="select"
-                            required={item.required}
-                            value={`${item?.extractor?.(editingField.value)?.key}`}
-                            onChange={(e: any) => {
-                                const _options = (editingField.item && item.itemBasedOptions && item.itemBasedOptions?.(editingField.item)) || optionsMap?.get(item.property)
-                                const option = _options?.find(o => `${item?.extractor?.(o)?.key}` === e.target.value)
-                                onEditValueChange(item.key || item.property, option)
-                            }}
-                        >
-                            <option />
-                            {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
+                            <Form.Control
+                                disabled={item.editable === false}
+                                as="select"
+                                required={item.required}
+                                value={`${item?.extractor?.(editingField.value)?.key}`}
+                                onChange={(e: any) => {
+                                    const _options = (editingField.item && item.itemBasedOptions && item.itemBasedOptions?.(editingField.item)) || optionsMap?.get(item.property)
+                                    const option = _options?.find(o => `${item?.extractor?.(o)?.key}` === e.target.value)
+                                    onEditValueChange(item.key || item.property, option)
+                                }}
+                            >
+                                <option />
+                                {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
                             </Form.Control>
-                        {renderUnits(item?.units?.(editingField.item) || '')}
+                            {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
@@ -346,15 +346,15 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <InputGroup>
-                        <Form.Control
-                            required={item.required}
-                            type={type}
-                            value={editingField.value !== null ? item.type === 'number' ? editingField.value
-                                : `${editingField.value}` : ''}
-                            onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
-                            disabled={item.editable === false}
-                        />
-                        {renderUnits(item?.units?.(editingField.item) || '')}
+                            <Form.Control
+                                required={item.required}
+                                type={type}
+                                value={editingField.value !== null ? item.type === 'number' ? editingField.value
+                                    : `${editingField.value}` : ''}
+                                onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
+                                disabled={item.editable === false}
+                            />
+                            {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">
                             This feild is required.
@@ -457,10 +457,17 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         if (value === true) return 'Yes'
         if (value === false) return 'No'
         return value
-    } 
+    }
+
+    const renderItemPropContents = (i: ItemSchema<T>, item: T) => {
+        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))} {i.units ? ' ' + i.units(item) : ''}</>
+    }
 
     const renderItemProp = (i: ItemSchema<T>, item: T) => {
-        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))} {i.units ? ' ' + i.units(item) : ''}</>
+        if (i.onClick) {
+            return <Button variant="link" className="text-link" onClick={() => i?.onClick?.(item, i.property)}>{renderItemPropContents(i, item)}</Button>
+        }
+        return renderItemPropContents(i, item)
     }
 
     const renderRowContents = (item: T, snapshot: DraggableStateSnapshot, schema: Array<ItemSchema<T>>, cellClassName?: string) => {
