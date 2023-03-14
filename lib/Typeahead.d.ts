@@ -5,7 +5,7 @@ import Typeahead from 'react-bootstrap-typeahead/types/core/Typeahead';
 export interface TypeaheadProps<T> extends Typeahead {
     onChange: (item: T[]) => void;
     initialValue?: string;
-    onSearch?: (term: string) => Promise<Array<T>>;
+    onSearch?: (term: string) => Promise<Array<T | { label: String }>>;
     labelKey?: keyof T;
     valueKey?: keyof T;
     allowNew?: boolean;
