@@ -14,8 +14,6 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ItemOptions, Options, Option } from './global'
 
-const version = 1
-
 type InputType = "text"
     | "select"
     | "switch"
@@ -25,6 +23,7 @@ type InputType = "text"
     | "table";
 
 export interface ItemSchema<T> {
+    version?: 1;
     label: string | JSX.Element;
     labelClassName?: string;
     labelStyle?: any;
@@ -551,6 +550,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <table
                         ref={provided.innerRef}
                         className={`table table-hover table-dark ${tableClassName}`}
+                        key={`${schema?.[0]?.label}-table`}
                     >
                         <thead>
                             {renderHeader(schema)}

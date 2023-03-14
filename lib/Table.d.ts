@@ -3,6 +3,7 @@ import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Option } from './global';
 declare type InputType = "text" | "select" | "switch" | "number" | "checkbox" | "custom" | "table";
 export interface ItemSchema<T> {
+    version?: 1;
     label: string | JSX.Element;
     labelClassName?: string;
     labelStyle?: any;
