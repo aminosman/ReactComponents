@@ -510,7 +510,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>, cellClassName?: string) => (
-        <Draggable key={`draggable-row-${item.id || item.title || item.dateCreated}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
+        <Draggable key={`draggable-row-${item.id || item.title || item.dateCreated || JSON.stringify(item)}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
                 <React.Fragment key={`row-data-${index}-${item.id}-${propKey}`}>
                     <tr
