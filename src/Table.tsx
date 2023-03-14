@@ -14,6 +14,8 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ItemOptions, Options, Option } from './global'
 
+const version = 1
+
 type InputType = "text"
     | "select"
     | "switch"
@@ -21,6 +23,7 @@ type InputType = "text"
     | "checkbox"
     | "custom"
     | "table";
+
 export interface ItemSchema<T> {
     label: string | JSX.Element;
     labelClassName?: string;
@@ -38,7 +41,6 @@ export interface ItemSchema<T> {
     onClick?: (item: T, property: keyof T) => any;
     CustomComponent?: (props: { onChange: (val: any) => void, item: any, onEditValueChange: (property: any, value: any) => void }) => JSX.Element | null;
     renderComponent?: (onChange: (val: any) => void, item: T) => JSX.Element | undefined | null;
-
     props?: TableProps<any>;
 }
 
@@ -511,14 +513,13 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderRow = (item: any, index: number, schema: Array<ItemSchema<T>>, cellClassName?: string) => (
         <Draggable key={`draggable-row-${item.id || item.title || item.dateCreated}-${propKey}`} draggableId={`${item.id}`} index={index} isDragDisabled={!props.onDragEnd}>
             {(provided: any, snapshot) => (
-                <>
+                <React.Fragment key={`row-data-${index}-${item.id}-${propKey}`}>
                     <tr
                         className={`bg-gradient-dark text-white ${props.rowClassName || ''}`}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={provided.draggableProps.style}
-                        key={`row-data-${index}-${item.id}-${propKey}`}
                     >
                         {renderRowContents(item, snapshot, schema, cellClassName)}
                     </tr>
@@ -526,7 +527,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                         {renderTable((item as any).children, props.nestedSchema as Array<ItemSchema<T>>, props.nestedTableClassName, props.nestedCellClassName)}
                     </td></tr>)}
                     {provided.placeholder}
-                </>
+                </React.Fragment>
             )}
         </Draggable>
     )
