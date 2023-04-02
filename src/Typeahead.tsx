@@ -14,6 +14,7 @@ export interface TypeaheadProps<T> extends Typeahead {
     multiple?: boolean,
     selected?: Option[],
     id: string,
+    placeholder?: string,
 }
 
 export default <T extends object>(props: TypeaheadProps<T>) => {
