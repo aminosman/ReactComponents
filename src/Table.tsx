@@ -337,7 +337,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">
-                            This feild is required.
+                            This field is required.
                         </Form.Control.Feedback>
                     </Form.Group>
                 )
@@ -358,7 +358,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">
-                            This feild is required.
+                            This field is required.
                         </Form.Control.Feedback>
                     </Form.Group >
                 )
@@ -378,9 +378,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                             disabled={item.editable === false}
                         />
                         <Form.Control.Feedback type="invalid">
-                            This feild is required.
+                            This field is required.
                         </Form.Control.Feedback>
-                    </Form.Group >
+                    </Form.Group>
                 )
             case 'table':
                 return (
