@@ -482,20 +482,18 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             rows.push(schema.map(i => <td key={`row-prop-data-${propKey}-${String(i.key || i.property)}-click`}>
                 <Button variant="link" className="text-link" onClick={() => handleView(item)}>{renderItemProp(i, item)}</Button>
             </td>))
-        } else {
+        } else
             rows.push(schema.map(i => (
-                <>
-                    <TableCell cellClassName={cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
-                        {renderItemProp(i, item)}
-                    </TableCell>
-                </>
+                <TableCell cellClassName={cellClassName} snapshot={snapshot} id={String(i.key || i.property)} key={`row-prop-data-${propKey}-${String(i.key || i.property)}`}>
+                    {renderItemProp(i, item)}
+                </TableCell>
             )))
-        }
-        props.customActions?.map(cA => (
-            <TableCell snapshot={snapshot} key={`row-prop-data-${propKey}-update-${JSON.stringify(item)}`}>
-                {cA(item)}
-            </TableCell>
-        ))
+        if (Array.isArray(props.customActions))
+            rows.push(...props.customActions.map(cA => (
+                <TableCell snapshot={snapshot} key={`row-custom-actions-${propKey}-update-${JSON.stringify(item)}`}>
+                    {cA(item)}
+                </TableCell>
+            )))
         if (props.onUpdate) {
             rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-${propKey}-update-${JSON.stringify(item)}`}>
                 <Button variant="light" className="float-right" onClick={() => handleEdit(item)}>
