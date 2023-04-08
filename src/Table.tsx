@@ -70,6 +70,7 @@ export interface TableProps<T> {
     tableClassName?: string;
     nestedTableClassName?: string;
     nestedCellClassName?: string;
+    customActions?: Array<(item: T) => JSX.Element>
 }
 
 export type TableCellProps = {
@@ -490,6 +491,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 </>
             )))
         }
+        props.customActions?.map(cA => (
+            <TableCell snapshot={snapshot} key={`row-prop-data-${propKey}-update-${JSON.stringify(item)}`}>
+                {cA(item)}
+            </TableCell>
+        ))
         if (props.onUpdate) {
             rows.push(<TableCell snapshot={snapshot} key={`row-prop-data-${propKey}-update-${JSON.stringify(item)}`}>
                 <Button variant="light" className="float-right" onClick={() => handleEdit(item)}>
@@ -534,6 +540,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     const renderHeader = (schema: Array<ItemSchema<T>>) => (
         <tr className="bg-dark text-white">
             {schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
+            {props.customActions?.map((_, i) => <th key={`action-header-${i}`} />)}
             {props.onRemove && (!props.onCreate || !!props.onUpdate) && <th />}
             {props.onCreate && <th scope="col">
                 <Button variant="light" className="float-right" onClick={handleShowModal}>

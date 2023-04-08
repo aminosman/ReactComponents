@@ -52,6 +52,7 @@ export interface TableProps<T> {
     tableClassName?: string;
     nestedTableClassName?: string;
     nestedCellClassName?: string;
+    customActions?: Array<(item: T) => JSX.Element>;
 }
 export declare type TableCellProps = {
     children?: any;
