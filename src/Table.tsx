@@ -333,7 +333,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                                 }}
                             >
                                 <option />
-                                {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(editingField.item) : undefined)}
+                                {renderOptions(item.property, editingField.item && item.itemBasedOptions ? item.itemBasedOptions?.(currentField) : undefined)}
                             </Form.Control>
                             {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
