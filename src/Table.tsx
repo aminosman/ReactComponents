@@ -327,7 +327,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                                 required={item.required}
                                 value={`${item?.extractor?.(editingField.value)?.key}`}
                                 onChange={(e: any) => {
-                                    const _options = (editingField.item && item.itemBasedOptions && item.itemBasedOptions?.(editingField.item)) || optionsMap?.get(item.property)
+                                    const _options = (editingField.item && item.itemBasedOptions && item.itemBasedOptions?.(currentField)) || optionsMap?.get(item.property)
                                     const option = _options?.find(o => `${item?.extractor?.(o)?.key}` === e.target.value)
                                     onEditValueChange(item.key || item.property, option)
                                 }}
