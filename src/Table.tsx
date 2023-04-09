@@ -86,15 +86,15 @@ export type TableCellProps = {
 const TableCell = ({ snapshot, children, Wrapper, row, id, cellClassName, ...props }: TableCellProps) => {
     const [ref, { width, height }] = useMeasure<any>()
 
-    const [dimentionSnapshot, setDimentionSnapshot] = useState<{ width: number, height: number } | null>(null)
+    const [dimensionSnapshot, setDimensionSnapshot] = useState<{ width: number, height: number } | null>(null)
 
     useEffect(() => {
         if (!snapshot.isDragging) {
-            setDimentionSnapshot({ width: width + 24, height: height + 24 })
+            setDimensionSnapshot({ width: width + 24, height: height + 24 })
         }
     }, [width])
 
-    return <td ref={ref} className={`${cellClassName || ''}`} style={snapshot?.isDragging ? dimentionSnapshot || {} : {}}>{children}</td>
+    return <td ref={ref} className={`${cellClassName || ''}`} style={snapshot?.isDragging ? dimensionSnapshot || {} : {}}>{children}</td>
 }
 
 const TableLoader = <T extends object>(props: TableProps<T>) => {
@@ -110,7 +110,6 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const [validated, setValidated] = useState<boolean>(false)
     const [saving, setSaving] = useState<boolean>(false)
-    const [draggedRowColumnWidths, setDraggedRowColumnWidths] = useState<number[]>([])
     const [loadingOptions, setLoadingOptions] = useState<boolean>(false)
 
     const items = (typeof props.items === 'function' ? props.items(editing) : props.items || [])
@@ -119,9 +118,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         const item = items.find(i => i['id'] === editingId)
         if (item)
             setEditing(props.schema.map((itemSchema: ItemSchema<T>) => {
-                let value = editing?.find(e => e.property === itemSchema?.property)?.value || getOrignalVlaue(item, itemSchema)
+                let value = editing?.find(e => e.property === itemSchema?.property)?.value || getOriginalValue(item, itemSchema)
                 if (itemSchema.type === 'table') {
-                    value = getOrignalVlaue(item, itemSchema)
+                    value = getOriginalValue(item, itemSchema)
                 }
                 return { ...itemSchema, value, item }
             }))
@@ -161,11 +160,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         handleEdit(null)
     }
 
-    const getOrignalVlaue = (parentItem: T | null, itemSchema: ItemSchema<T>) => {
+    const getOriginalValue = (parentItem: T | null, itemSchema: ItemSchema<T>) => {
         let value: any = ''
-        if (parentItem && itemSchema.type === 'text' && itemSchema.extractor) value = itemSchema.extractor(resolveValue(parentItem, `${itemSchema.property}`)).value
-        else if (parentItem && itemSchema.type === 'number') value = resolveValue(parentItem, `${itemSchema.property}`) || 0
-        else if (parentItem) value = resolveValue(parentItem, `${itemSchema.property}`)
+        if (parentItem && itemSchema.type === 'text' && itemSchema.extractor) value = itemSchema.extractor(resolveValue(parentItem, `${itemSchema.property as string}`)).value
+        else if (parentItem && itemSchema.type === 'number') value = resolveValue(parentItem, `${itemSchema.property as string}`) || 0
+        else if (parentItem) value = resolveValue(parentItem, `${itemSchema.property as string}`)
         return value
     }
 
@@ -173,7 +172,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         await loadOptions()
         clearEditFields()
         setEditingId(item ? item['id'] : null)
-        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOrignalVlaue(item, itemSchema), item })))
+        setEditing(props.schema.map((itemSchema: ItemSchema<T>) => ({ ...itemSchema, value: getOriginalValue(item, itemSchema), item })))
         setShowModal(true)
     }
 
@@ -234,7 +233,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         if (editingIndex === -1) return
         copy[editingIndex].value = value
         props.schema.map(depSchemaItem => {
-            const parts = `${depSchemaItem.property}`.split('.')
+            const parts = `${depSchemaItem.property as string}`.split('.')
             if (parts?.length > 1 && parts[0] === property) {
                 const index = getEditingPropertyIndex(depSchemaItem.property)
                 copy[index].value = resolveValue(value, parts.slice(1).join('.'))
@@ -277,7 +276,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             {[...new Array(10)].map(x => Math.max(Math.floor(Math.random() * 250), 125)).map((x, i) => (
                 <tr className="bg-gradient-dark text-white" key={`row-data-loading-${JSON.stringify(i)}-${propKey}`}>
                     {props.schema.map(i => (
-                        <td key={`row-data-td-loading-${i.label}-${i.property}-${i.key}`}><div style={{ width: 75, height: 10 }} className="mb-2">{renderLoader('', 50, 5)}</div></td>
+                        <td key={`row-data-td-loading-${i.label}-${i.property as string}-${i.key}`}><div style={{ width: 75, height: 10 }} className="mb-2">{renderLoader('', 50, 5)}</div></td>
                     ))}
                 </tr>
             ))}
@@ -318,7 +317,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
         switch (type) {
             case 'select':
                 return (
-                    <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
+                    <Form.Group as={Col} controlId={`${item.property as string}`} key={`form-info-${String(item.key || item.property)}-${type}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <InputGroup>
                             <Form.Control
@@ -345,7 +344,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             case 'text':
             case 'number':
                 return (
-                    <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
+                    <Form.Group as={Col} controlId={`${item.property as string}`} key={`form-info-${String(item.key || item.property)}-${type}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         <InputGroup>
                             <Form.Control
@@ -367,7 +366,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             case 'switch':
             case 'checkbox':
                 return (
-                    <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
+                    <Form.Group as={Col} controlId={`${item.property as string}`} key={`form-info-${String(item.key || item.property)}-${type}`}>
                         <Form.Label />
                         <Form.Check
                             className="form-control-lg text-white"
@@ -385,7 +384,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 )
             case 'table':
                 return (
-                    <Form.Group as={Col} controlId={`${item.property}`} key={`form-infor-${String(item.key || item.property)}`}>
+                    <Form.Group as={Col} controlId={`${item.property as string}`} key={`form-info-${String(item.key || item.property)}-${type}`}>
                         <Form.Label className="text-white">{item.label}</Form.Label>
                         {item.props && <TableLoader
                             {...item.props}
@@ -462,7 +461,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderItemPropContents = (i: ItemSchema<T>, item: T) => {
-        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property}`))?.value : booleanParser(resolveValue(item, `${i.property}`))} {i.units ? ' ' + i.units(item) : ''}</>
+        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property as string}`))?.value : booleanParser(resolveValue(item, `${i.property as string}`))} {i.units ? ' ' + i.units(item) : ''}</>
     }
 
     const renderItemProp = (i: ItemSchema<T>, item: T) => {
@@ -537,7 +536,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderHeader = (schema: Array<ItemSchema<T>>) => (
         <tr className="bg-dark text-white">
-            {schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${i.property || i.label}-${propKey}`}>{i.label}</th>)}
+            {schema.map(i => <th style={i.labelStyle || {}} className={`${i.labelClassName || ''}`} key={`row-header-${(i.property || i.label) as string}-${propKey}`}>{i.label}</th>)}
             {props.customActions?.map((_, i) => <th key={`action-header-${i}`} />)}
             {props.onRemove && (!props.onCreate || !!props.onUpdate) && <th />}
             {props.onCreate && <th scope="col">
