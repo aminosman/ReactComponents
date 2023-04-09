@@ -239,6 +239,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                 copy[index].value = resolveValue(value, parts.slice(1).join('.'))
             }
         })
+        setEditing(copy)
     }
 
     const handleView = (item: T) => {
@@ -293,7 +294,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 
     const renderField = (item: ItemSchema<T>, i: number) => {
         const editingField = editing?.find(x => x.key ? x.key === item.key : x.property === item.property)
-        const currentItem = editing?.reduce((p, c) => ({ ...p, [c.property]: c.value }), {}) as T
+        const currentField = editing?.reduce((p, c) => ({ ...p, [c.key || c.property]: c.value }), {}) as T
         if (!editingField) return null
         if (item.renderComponent && typeof item.renderComponent === 'function')
             return (
@@ -313,7 +314,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                     <item.CustomComponent onChange={(e: any) => onEditValueChange(item.key || item.property, e)} onEditValueChange={onEditValueChange} item={editingField.item} />
                 </Form.Group>
             )
-        const type = typeof item.type === 'function' ? item.type?.(currentItem) : item.type || 'text'
+        const type = typeof item.type === 'function' ? item.type?.(currentField) : item.type || 'text'
         switch (type) {
             case 'select':
                 return (
