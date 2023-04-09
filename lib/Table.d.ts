@@ -12,7 +12,7 @@ export interface ItemSchema<T> {
     required?: boolean;
     type: InputType | ((item: T) => InputType);
     itemBasedOptions?: (item: T) => string[];
-    extractor?: (x: any) => Option;
+    extractor?: (x: any, item: T) => Option;
     value?: (item: T) => string | JSX.Element;
     units?: (item: T | null) => string;
     key?: string;
