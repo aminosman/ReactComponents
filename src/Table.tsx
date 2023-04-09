@@ -462,7 +462,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
     }
 
     const renderItemPropContents = (i: ItemSchema<T>, item: T) => {
-        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property as string}`))?.value : booleanParser(resolveValue(item, `${i.property as string}`))} {i.units ? ' ' + i.units(item) : ''}</>
+        return <>{typeof i.value === 'function' ? i.value(item) : i?.extractor ? i.extractor?.(resolveValue(item, `${i.property as string}`))?.key : booleanParser(resolveValue(item, `${i.property as string}`))} {i.units ? ' ' + i.units(item) : ''}</>
     }
 
     const renderItemProp = (i: ItemSchema<T>, item: T) => {
