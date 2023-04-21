@@ -346,7 +346,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
             case 'number':
                 return (
                     <Form.Group as={Col} controlId={`${item.property as string}`} key={`form-info-${String(item.key || item.property)}-${type}`}>
-                        <Form.Label className="text-white">{item.label}{`${`${editingField.value}`.trim()}`}</Form.Label>
+                        <Form.Label className="text-white">{item.label}{`${!!`${editingField.value}`.trim()}`}</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 required={item.required}
