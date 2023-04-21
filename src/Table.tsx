@@ -355,7 +355,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
                                     : `${editingField.value}` : ''}
                                 onChange={(e: any) => onEditValueChange(item.key || item.property, e.target.value)}
                                 disabled={item.editable === false}
-                                isValid={!!`${editingField.value}`.trim()}
+                                isInvalid={!`${editingField.value}`.trim()}
                             />
                             {renderUnits(item?.units?.(editingField.item) || '')}
                         </InputGroup>
