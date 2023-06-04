@@ -442,6 +442,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 						{item.props && (
 							<TableLoader
 								{...item.props}
+								title={
+									typeof item.props.title === 'function'
+										? item.props.title?.(currentField)
+										: item.props.title
+								}
 								items={editingField?.value}
 								onCreate={async (id: number, object: Array<ItemEditSchema<any>>) => {
 									if (editing) {
