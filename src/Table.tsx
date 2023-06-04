@@ -69,7 +69,7 @@ export interface TableProps<T> {
 	nestedTableClassName?: string
 	nestedCellClassName?: string
 	customActions?: Array<(item: T) => JSX.Element>
-	title?: string
+	title?: string | ((item: T) => string)
 }
 
 export type TableCellProps = {
@@ -495,7 +495,11 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 				<Form noValidate validated={validated} onSubmit={handleSave}>
 					<Modal.Header closeButton className={'bg-dark text-white'}>
 						<Modal.Title>
-							{editingId ? 'Edit' : 'Add'} {props.title}
+							{editingId ? 'Edit' : 'Add'}{' '}
+							{typeof props.title === 'function'
+								? items.find((i: any) => i.id === editingId) &&
+								  props.title(items.find((i: any) => i.id === editingId) as T)
+								: props.title}
 						</Modal.Title>
 					</Modal.Header>
 					<Modal.Body className={'bg-dark'}>
