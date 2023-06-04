@@ -444,7 +444,8 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 								{...item.props}
 								title={
 									typeof item.props.title === 'function'
-										? item.props.title?.(currentField)
+										? items.find((i: any) => i.id === editingId) &&
+										  item.props.title(items.find((i: any) => i.id === editingId) as T)
 										: item.props.title
 								}
 								items={editingField?.value}
