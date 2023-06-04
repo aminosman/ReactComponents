@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Option } from './global';
-declare type InputType = "text" | "select" | "switch" | "number" | "checkbox" | "custom" | "table";
+declare type InputType = 'text' | 'select' | 'switch' | 'number' | 'checkbox' | 'custom' | 'table';
 export interface ItemSchema<T> {
     version?: 1;
     label: string | JSX.Element;
@@ -53,6 +53,7 @@ export interface TableProps<T> {
     nestedTableClassName?: string;
     nestedCellClassName?: string;
     customActions?: Array<(item: T) => JSX.Element>;
+    title?: string;
 }
 export declare type TableCellProps = {
     children?: any;
