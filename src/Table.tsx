@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable, DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { ItemOptions, Options, Option } from './global'
 
-type InputType = 'text' | 'select' | 'switch' | 'number' | 'checkbox' | 'custom' | 'table'
+type InputType = 'text' | 'select' | 'switch' | 'number' | 'checkbox' | 'custom' | 'table' | 'textarea'
 
 export interface ItemSchema<T> {
 	version?: 1
@@ -383,6 +383,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 				)
 			case 'text':
 			case 'number':
+			case 'textarea':
 				return (
 					<Form.Group
 						as={Col}
@@ -393,7 +394,9 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 						<InputGroup>
 							<Form.Control
 								required={item.required}
-								type={type}
+								as={type === 'textarea' ? 'textarea' : undefined}
+								type={type === 'textarea' ? 'text' : type}
+								rows={type === 'textarea' ? 3 : undefined}
 								value={
 									editingField.value !== null
 										? item.type === 'number'

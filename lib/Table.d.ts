@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Option } from './global';
-declare type InputType = 'text' | 'select' | 'switch' | 'number' | 'checkbox' | 'custom' | 'table';
+declare type InputType = 'text' | 'select' | 'switch' | 'number' | 'checkbox' | 'custom' | 'table' | 'textarea';
 export interface ItemSchema<T> {
     version?: 1;
     label: string | JSX.Element;
