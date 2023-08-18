@@ -452,20 +452,26 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 										: item.props.title
 								}
 								items={editingField?.value}
-								onCreate={async (id: number, object: Array<ItemEditSchema<any>>) => {
-									if (editing) {
-										const currentValue = editingField?.value
-										const addedValue = { id: Math.random() }
-										object.forEach((o) => {
-											addedValue[o.property] = o.value
-										})
-										onEditValueChange(
-											item.key || item.property,
-											currentValue?.length ? [...currentValue, addedValue] : [addedValue]
-										)
-									}
-									return true
-								}}
+								onCreate={
+									item.props.onCreate
+										? async (id: number, object: Array<ItemEditSchema<any>>) => {
+												if (editing) {
+													const currentValue = editingField?.value
+													const addedValue = { id: Math.random() }
+													object.forEach((o) => {
+														addedValue[o.property] = o.value
+													})
+													onEditValueChange(
+														item.key || item.property,
+														currentValue?.length
+															? [...currentValue, addedValue]
+															: [addedValue]
+													)
+												}
+												return true
+										  }
+										: undefined
+								}
 								onUpdate={async (id: number, object: Array<ItemEditSchema<any>>) => {
 									if (editing) {
 										const subItemList = editingField?.value
