@@ -452,51 +452,38 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 										: item.props.title
 								}
 								items={editingField?.value}
-								onCreate={
-									props.onCreate
-										? async (id: number, object: Array<ItemEditSchema<any>>) => {
-												if (editing) {
-													const currentValue = editingField?.value
-													const addedValue = { id: Math.random() }
-													object.forEach((o) => {
-														addedValue[o.property] = o.value
-													})
-													onEditValueChange(
-														item.key || item.property,
-														currentValue?.length
-															? [...currentValue, addedValue]
-															: [addedValue]
-													)
-												}
-												return true
-										  }
-										: undefined
-								}
-								onUpdate={
-									item.props.onCreate
-										? async (id: number, object: Array<ItemEditSchema<any>>) => {
-												if (editing) {
-													const subItemList = editingField?.value
-													const updatedValue: any = {
-														...subItemList?.find?.((x: any) => x.id === id),
-													}
-													object.forEach((o) => {
-														updatedValue[o.property] = o.value
-													})
-													onEditValueChange(
-														item.key || item.property,
-														subItemList?.length
-															? [
-																	...subItemList?.filter?.((x: any) => x.id !== id),
-																	updatedValue,
-															  ]
-															: [updatedValue]
-													)
-												}
-												return true
-										  }
-										: undefined
-								}
+								onCreate={async (id: number, object: Array<ItemEditSchema<any>>) => {
+									if (editing) {
+										const currentValue = editingField?.value
+										const addedValue = { id: Math.random() }
+										object.forEach((o) => {
+											addedValue[o.property] = o.value
+										})
+										onEditValueChange(
+											item.key || item.property,
+											currentValue?.length ? [...currentValue, addedValue] : [addedValue]
+										)
+									}
+									return true
+								}}
+								onUpdate={async (id: number, object: Array<ItemEditSchema<any>>) => {
+									if (editing) {
+										const subItemList = editingField?.value
+										const updatedValue: any = {
+											...subItemList?.find?.((x: any) => x.id === id),
+										}
+										object.forEach((o) => {
+											updatedValue[o.property] = o.value
+										})
+										onEditValueChange(
+											item.key || item.property,
+											subItemList?.length
+												? [...subItemList?.filter?.((x: any) => x.id !== id), updatedValue]
+												: [updatedValue]
+										)
+									}
+									return true
+								}}
 							/>
 						)}
 					</Form.Group>
