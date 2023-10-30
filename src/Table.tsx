@@ -453,7 +453,7 @@ const TableLoader = <T extends object>(props: TableProps<T>) => {
 								}
 								items={editingField?.value}
 								onCreate={
-									item.props.onCreate
+									props.onCreate
 										? async (id: number, object: Array<ItemEditSchema<any>>) => {
 												if (editing) {
 													const currentValue = editingField?.value
